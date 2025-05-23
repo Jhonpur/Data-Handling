@@ -1,0 +1,2 @@
+Sentiment Generale: 0
+Sentiment Medio: 0.0
