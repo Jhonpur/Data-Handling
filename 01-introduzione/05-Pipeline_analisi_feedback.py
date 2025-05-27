@@ -8,10 +8,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 def feedback():
     print("Acquisizione feedback in corso...")
-    feedback = ["  AWESOME event event ! Very satisfying :)  ", 
+    feedback = ["  AWESOME Event ! Very satisfying :)  ", 
                 "I don't like this event very much... The WORST event Organization ever!", 
                 "  Nothing out of ordinary.  ",
-                " i love this content",
+                " I love this content SO much!",
                 "I don't want to partecipate anymore to this event! "]
     return pd.DataFrame(feedback, columns=['Feedback'])
 
@@ -32,9 +32,13 @@ def estrazione_parole_chiave(df):
     # Estrazione delle parole chiave (in questo caso, le parole più frequenti) versione semplice
     # parole_chiave = df['Clean'].str.split(expand=True).stack().value_counts()
     # return parole_chiave.head(5)  # Restituisco le prime 5 parole più frequenti
+    
 
     #VERSIONE TFIDFVECTORIZER
-    vectorizer = TfidfVectorizer(max_features=3)
+    vectorizer = TfidfVectorizer(max_features = 5,
+                                stop_words = ['this', 'to', 'dont', 'want', 'very', 'much', 'like', 'anymore'],
+                                token_pattern = r'\b[a-zA-Z]{3,}\b',  # Almeno 3 lettere
+                                )
     x = vectorizer.fit_transform(df['Clean'])
     parole_chiave = vectorizer.get_feature_names_out()
 
@@ -45,7 +49,6 @@ def estrazione_parole_chiave(df):
     
     # Crea Series con parole e conteggi
     parole_con_conteggio = pd.Series(conteggi, name='conteggio')
-    print(f"Parole chiave principali: {parole_con_conteggio}")
     return parole_con_conteggio
 
 #Preso da esempio modulo 5
