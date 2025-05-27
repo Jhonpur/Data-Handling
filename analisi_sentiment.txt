@@ -1,6 +1,7 @@
 Sentiment Generale:                                             Feedback                                              Clean  sentiment
-0                                                                                                                0
-1              AWESOME Event!!! Very satisfying :)                        awesome event very satisfying          1
-2  I don't like this event very much... The WORST...  i dont like this event very much the worst eve...          0
-3                         Nothing out of ordinary.                              nothing out of ordinary          0
-Sentiment Medio: 0.25
+0         AWESOME event event ! Very satisfying :)                awesome event event  very satisfying           1
+1  I don't like this event very much... The WORST...  i dont like this event very much the worst eve...          0
+2                         Nothing out of ordinary.                              nothing out of ordinary          0
+3                                i love this content                                i love this content          1
+4  I don't want to partecipate anymore to this ev...   i dont want to partecipate anymore to this event          0
+Sentiment Medio: 0.4

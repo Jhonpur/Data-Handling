@@ -1,47 +1,65 @@
 import pandas as pd
+import numpy as np
 import re
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
-
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 def feedback():
     print("Acquisizione feedback in corso...")
-    feedback = ["",
-                "  AWESOME Event!!! Very satisfying :)  ", 
+    feedback = ["  AWESOME event event ! Very satisfying :)  ", 
                 "I don't like this event very much... The WORST event Organization ever!", 
-                "  Nothing out of ordinary.  "]
+                "  Nothing out of ordinary.  ",
+                " i love this content",
+                "I don't want to partecipate anymore to this event! "]
     return pd.DataFrame(feedback, columns=['Feedback'])
 
 def pulizia_feedback(df):
-      # Rimuovere caratteri speciali, punteggiatura extra o spazi bianchi all'inizio/fine dei commenti
+    # Rimuovere caratteri speciali, punteggiatura extra o spazi bianchi all'inizio/fine dei commenti
     # Convertire tutti i commenti in minuscolo per garantire uniformità
     print("Pulizia del testo")
     def clean(testo):
-        # espressioni regolari come nel modulo 4
-        testo = re.sub(r'[^a-zA-Z0-9\s]', '', testo) # sostituisce la punteggiatura con '', quindi rimuovendolo
-                                # prende solo le parole che hanno spazi e hanno caratteri letterari con \w
         testo = testo.strip().lower()   # strip rimuove gli spazi e lower mette tutto in minuscolo
+        # espressioni regolari come nel modulo 4
+        testo = re.sub(r'[^\w\s]', '', testo) # sostituisce la punteggiatura con '', quindi rimuovendolo
+                                # prende solo le parole che hanno spazi e hanno caratteri letterari con \w
         return testo
     df['Clean'] = df['Feedback'].apply(clean)
     return df
 
 def estrazione_parole_chiave(df):
-    # Estrazione delle parole chiave (in questo caso, le parole più frequenti)
-    parole_chiave = df['Feedback'].str.split(expand=True).stack().value_counts()
-    return parole_chiave.head(5)  # Restituisco le prime 5 parole più frequenti
+    # Estrazione delle parole chiave (in questo caso, le parole più frequenti) versione semplice
+    # parole_chiave = df['Clean'].str.split(expand=True).stack().value_counts()
+    # return parole_chiave.head(5)  # Restituisco le prime 5 parole più frequenti
 
+    #VERSIONE TFIDFVECTORIZER
+    vectorizer = TfidfVectorizer(max_features=3)
+    x = vectorizer.fit_transform(df['Clean'])
+    parole_chiave = vectorizer.get_feature_names_out()
+
+    # Calcola il conteggio delle parole selezionate da TF-IDF
+    conteggi = {}
+    for parola in parole_chiave:
+        conteggi[parola] = df['Clean'].str.count(parola).sum()
+    
+    # Crea Series con parole e conteggi
+    parole_con_conteggio = pd.Series(conteggi, name='conteggio')
+    print(f"Parole chiave principali: {parole_con_conteggio}")
+    return parole_con_conteggio
+
+#Preso da esempio modulo 5
 def analisi_sentiment_generale(df):
     df_amazon = pd.read_csv('amazon-cells.txt', names = ['review', 'sentiment'], sep='\t')  
 
     reviews = df_amazon['review']
     sentiments = df_amazon['sentiment']
 
-    reveiws_train, reviews_test, sentiments_train, sentiments_test = train_test_split(reviews, sentiments, test_size=0.2, random_state=500)
+    reviews_train, reviews_test, sentiments_train, sentiments_test = train_test_split(reviews, sentiments, test_size=0.2, random_state=500)
 
     vectorizer = CountVectorizer()
     vectorizer.fit(reviews)
-    X_train = vectorizer.transform(reveiws_train)
+    X_train = vectorizer.transform(reviews_train)
     X_test = vectorizer.transform(reviews_test)
 
     classifier = LogisticRegression()
