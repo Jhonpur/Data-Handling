@@ -18,7 +18,7 @@ data = [{"Emp":"Jeff Russell",
 df = pd.json_normalize(data, "POs", ["Emp", "Emp_email"]).set_index(["Emp","Emp_email","Pono"])
 
 df = df.reset_index() #ELIMINIAMO INDICE A 2 COLONNE, COSì RENDIAMO EMP E PONO COLONNE
-json_doc = ( df.groupby(['Emp'], as_index=True) #RAGGRUPPIAMO LE RIGHE IN BASE ALLA COLONNA EMP
+json_doc = ( df.groupby(['Emp','Emp_email'], as_index=True) #RAGGRUPPIAMO LE RIGHE IN BASE ALLA COLONNA EMP
 .apply(lambda x: x[['Pono','Total']].to_dict('records'), include_groups=False) #apply APPLICA FUNZIONE LAMBDA A OGNI RECORD, CHE SPECIFICA QUALI QUALI CAMPI VISUALIZZARE IN UNA RIGA
 .reset_index() #CONVERTIAMO LA Series IN UN DataFrame, e converte pure EMP DA INDICE A COLONNA REGOLARE
 .rename(columns={0:'POs'}) #IMPOSTIAMO NOME COLONNA
@@ -26,3 +26,4 @@ json_doc = ( df.groupby(['Emp'], as_index=True) #RAGGRUPPIAMO LE RIGHE IN BASE A
 
 #Per migliorare la leggibilità, è possibile stamparla con il seguente comando:
 print(json.dumps(json.loads(json_doc), indent=2))
+#print(df)
