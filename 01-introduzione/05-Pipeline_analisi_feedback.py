@@ -3,8 +3,9 @@ import numpy as np
 import re
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn import svm
 
 def feedback():
     print("Acquisizione feedback in corso...")
@@ -66,11 +67,20 @@ def analisi_sentiment_generale(df):
     X_test = vectorizer.transform(reviews_test)
 
     classifier = LogisticRegression()
+    #linear_classifier = LinearRegression()
     classifier.fit(X_train,sentiments_train)
+    #linear_classifier.fit(X_train, sentiments_train)
+    svm_classifier = svm.SVC()
+    svm_classifier.fit(X_train,sentiments_train)
+
 
     #valutare l’accuratezza con cui il modello può fare previsioni su nuovi dati
     accuracy = classifier.score(X_test,sentiments_test)
+    #linear_accuracy = linear_classifier.score(X_test, sentiments_test)
+    svm_accuracy = svm_classifier.score(X_test,sentiments_test)
     print("Accuracy:",accuracy)
+    #print("Linear accuracy:", linear_accuracy)
+    print("Svm Accuracy:",svm_accuracy)
 
     X_new = vectorizer.transform(df['Clean'])
     predizione = classifier.predict(X_new)
