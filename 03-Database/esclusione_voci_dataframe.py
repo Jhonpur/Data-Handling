@@ -1,4 +1,10 @@
-#ESERCIZIO 10 PAG 47
+'''Esercizio 10: Escludere il totale delle voci del DataFrame:
+La presenza di righe per i totali in un DataFrame consente di utilizzarlo come report senza
+dover aggiungere ulteriori passaggi. Tuttavia, se si intende utilizzare il DataFrame in ulteriori
+operazioni di aggregazione, potrebbe essere necessario escludere le righe per i totali.
+Provate a filtrare il DataFrame df_totals creato nella sezione precedente, escludendo le
+righe del totale generale e del subtotale. Utilizzate le tecniche di slicing discusse in questo
+capitolo.'''
 import pandas as pd
 
 orders = [

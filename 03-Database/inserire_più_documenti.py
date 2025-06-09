@@ -1,3 +1,8 @@
+'''Esercizio 9: Inserire e interrogare più documenti
+Nella sezione precedente avete imparato a inserire o recuperare un singolo documento in un
+database MongoDB. Continuando con l’insieme emps creato nel database sampledb, provate
+a eseguire inserti massivi con il metodo insert_many() e interrogate più di un documento
+con il metodo find().'''
 from pymongo import MongoClient
 client = MongoClient('mongodb+srv://lorenzopourpour:oaH5FYIScNlpfbPW@cluster0.7xubpdf.mongodb.net/')
 

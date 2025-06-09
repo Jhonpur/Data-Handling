@@ -1,7 +1,11 @@
+'''Esercizio #8: Eseguire una join uno-a-molti
+Modificate il codice mostrato nella sezione precedente in modo che la query sia una join
+della tabella emps con la tabella orders. È possibile mantenere la condizione che empno sia
+maggiore di 9001. Adattate la chiamata print() per produrre le righe della join modificata.'''
 import mysql.connector
 
 try:
-    cnx = mysql.connector.connect(user = 'root', password = 'ciaone',
+    cnx = mysql.connector.connect(user = 'root', password = '''ciaone''',
                                   host='127.0.0.1',
                                   database = 'sampledb')
     cursor = cnx.cursor()
