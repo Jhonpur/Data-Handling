@@ -5,7 +5,7 @@ maggiore di 9001. Adattate la chiamata print() per produrre le righe della join 
 import mysql.connector
 
 try:
-    cnx = mysql.connector.connect(user = 'root', password = '''ciaone''',
+    cnx = mysql.connector.connect(user = 'root', password = '''passw''',
                                   host='127.0.0.1',
                                   database = 'sampledb')
     cursor = cnx.cursor()
